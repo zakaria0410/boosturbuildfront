@@ -1,0 +1,157 @@
+
+
+<div class="content-section introduction">
+    <div class="feature-intro">
+        <h1>Users <span>Système</span></h1>
+        <p>Espace Paramétrage Users Système</p>
+</div>
+       
+         
+
+    
+    </div>
+ 
+    <div class="content-section implementation">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-dataView #dv [value]="users" [paginator]="true" [rows]="9" filterBy="username"
+          layout="grid">
+                <ng-template pTemplate="header">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+                        <p-button (click)="showBasicDialog(null)"  styleClass="btn-success"  
+                        label="Nouvel Utilisateur" icon="pi pi-plus"></p-button>
+                        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                  </span>
+                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                    </div>
+                </ng-template>
+                <ng-template let-product pTemplate="listItem">
+                    <div class="p-col-12">
+                        <div class="product-list-item">
+                           <div class="product-list-detail">
+                                <div class="product-name">{{product.username}}</div>
+                                <div class="product-description">{{product.firstName}} {{product.lastName}}</div>
+                               
+                          
+                            </div>
+                            <div class="product-list-action">
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">        
+                                        <p-button (click)="showBasicDialog(product)"  styleClass="btn-warning"  
+                                        label="Edit Utilisateur" icon="pi pi-pencil"></p-button>           </div>
+
+                            <div class="p-field p-col">
+                                <p-button styleClass="btn-danger" icon="pi pi-ban" label="Bloquer Acces" ></p-button>
+                      </div></div>        </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-product pTemplate="gridItem">
+                    <div class="p-col-12 p-md-4">
+                        <div class="product-grid-item card">
+                            <div class="product-grid-item-top">
+                                <div>
+                                    <i class="pi pi-user product-category-icon"></i>
+                                    <span class="product-category">{{product.username}}</span>
+                                </div>
+                            </div>
+                            <div class="product-grid-item-content">
+                                  <div class="product-name">x</div>
+                                <div class="product-description">{{product.firstName}} {{product.lastName}}</div>
+                                <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            </div>
+                            <div class="product-grid-item-bottom">
+              
+                                    <div class="p-field">        
+                                        <p-button (click)="showBasicDialog(product)"  styleClass="btn-warning"  
+                                        label="Edit Utilisateur" icon="pi pi-pencil"></p-button>       </div>
+
+                            <div class="p-field">
+                                <p-button styleClass="btn-danger" icon="pi pi-ban" label="Bloquer Acces" ></p-button>
+                   </div> </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+        <p-dialog  [(visible)]="displayBasic"  header="User" [resizable]="true" 
+        [style]="{width: '50vw'}" 
+        [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+            
+         
+                <ng-template pTemplate="content">
+              <br/>
+              
+                    <div class="p-formgrid p-grid">
+                        <div class="p-field p-col">
+      
+                            <span class="p-float-label"> 
+                                  <input pInputText type="text"  name="username" id="username"
+                                [(ngModel)]="username" pInputText required autocomplete="off">
+                             
+                                    <label for="username">Username:</label> 
+                                     </span>
+          </div>
+     
+            <div class="p-field p-col">
+                <span class="p-float-label"> 
+                <input type="email" pInputText  name="email" id="email"
+                [(ngModel)]="email" required autocomplete="off">
+                <label for="email">Email:</label>  </span>
+        </div>
+
+
+  
+       </div>
+       <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+            <span class="p-float-label"> 
+
+ 
+                <input type="text" pInputText  name="firstName" id="firstName"
+                [(ngModel)]="firstName" autocomplete="off">
+                <label for="firstName">Prénom:</label>
+                </span>
+            </div>
+            <div class="p-field p-col">
+                <span class="p-float-label"> 
+
+                 
+                    <input type="text" pInputText  name="lastName" id="lastName"
+                    [(ngModel)]="lastName" autocomplete="off">
+                    <label for="lastName">Nom:</label>    </span>
+                </div>
+                <div  class="p-field p-col">
+                    <span class="p-float-label"> 
+                        <p-password id="password" [(ngModel)]="password" [toggleMask]="true"></p-password>
+                        <label for="password">Password:</label>
+                      </span>
+                    </div>
+            </div>
+
+            <h5>Centre Invistissement</h5>
+            <div class="p-formgrid p-grid">
+            
+         
+                <div *ngFor="let ci of cis" class="p-field p-col">
+          <p-button [styleClass]="'btn btn-'+colorCi(ci)" (click)="addCentreAffect(ci)" label="{{ci.libelle}}"></p-button>
+</div></div>
+<h5>Rôles</h5>
+<div class="p-formgrid p-grid">
+
+    <div *ngFor="let role of roles" class="p-field p-col">
+<p-button [styleClass]="'btn btn-'+colorRole(role)" (click)="addRoleAffect(role)" label="{{role}}"></p-button>
+</div></div>
+        </ng-template>
+             
+        
+                      
+        
+        
+        
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="createUser()"  label="Ok" styleClass="p-button-success"></p-button>
+        </ng-template>
+        
+        </p-dialog>     </div>
+    

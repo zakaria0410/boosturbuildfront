@@ -1,0 +1,175 @@
+<div class="content-section introduction">
+    <div class="feature-intro">
+        <h1>Pannes</h1>
+        <p>Suivi Pannes Parc Matériel</p>
+    </div>
+ </div>
+
+<div class="content-section implementation">
+
+
+    <p-dialog   [(visible)]="displayBasic" [contentStyle]="{'overflow':'visible'}"  header="Nouvel Engin" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+       
+
+         
+            <form [formGroup]="panneForm" >  
+       
+               
+                    <div class="p-field">
+                        <span class="p-float-label">
+                             <input type="type" formControlName="type"
+                              id="type" pInputText >
+                             <label for="type">Type</label>  
+                                </span>
+      </div>
+      <div class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="designation"
+              id="designation" pInputText >
+             <label for="designation">Désignation</label>  
+                </span>
+</div>
+
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="description"
+          id="description" pInputText >
+         <label for="description">Description</label>  
+            </span>
+</div>
+<div class="p-field">
+    <p-dropdown [options]="mms" placeholder="select categorie" formControlName="moyenmaterielIdmoyenmateriel"  
+[filter]="true"
+    dataKey="idmoyenmateriel"
+   optionLabel="code"></p-dropdown>
+</div>
+<div class="p-field">
+    <label for="dateformat">Date début panne</label>
+<p-calendar formControlName="datedebutpanne" dateFormat="dd-MM-yy" inputId="dateformat"></p-calendar>
+</div>
+
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="submit()"   label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+  
+
+    <p-card>
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                
+                <p-button  icon="pi pi-plus" (click)="showBasicDialog(null)" styleClass="p-button-success" label="Nouvelle Panne"></p-button>
+      
+            </ng-template>
+            
+          
+            <ng-template pTemplate="right">
+            </ng-template>
+        </p-toolbar>
+
+        <p-tabView>
+            <p-tabPanel >
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-dollar"></i>
+                    <span>Panne En Cours</span>
+                </ng-template>
+                </p-tabPanel>
+            <p-tabPanel >
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-dollar"></i>
+                    <span>Historique des pannes</span>
+                </ng-template>
+<div    class="p-fluid p-grid">
+    <div class="p-field p-col-12 p-md-6"> 
+     <p-card>
+        <p-table  [paginator]="true"  [rowsPerPageOptions]="[10,25,50]"  
+        [responsive]="true" [rows]="10" [value]="pannes"
+        
+        selectionMode="single" [(selection)]="selectedProduct1" dataKey="idpanne"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Panne</th>
+             
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Historique Panne</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr [pSelectableRow]="product">
+                    <td>
+
+                        <div class="product-grid-item card">
+                            <div class="product-grid-item-top">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon"></i>
+                                    <span class="product-category">{{product.moyenmaterielIdmoyenmateriel.code}}</span>
+                                </div>
+                                <span class="product-badge status-instock">Depuis {{product.nbj}} Jours</span>
+                            </div>
+                            <div class="product-grid-item-content">
+                                <div class="product-name">{{product.designation}}</div>
+                                <div class="product-description">{{product.description}}</div>
+                               
+                            </div>
+                            <div class="product-grid-item-bottom">
+                                <span class="product-price" *ngIf="value(product)===null">Non Initié</span>
+                                <span class="product-price" *ngIf="value(product)!==null">   {{value(product)}}</span>
+                                <p-button icon="pi pi-pencil" (click)="showBasicDialog(product)"
+                                styleClass="p-button-warning"></p-button>
+                                <p-button icon="pi pi-pencil" styleClass="p-button-danger" 
+                                icon="pi pi-trash" 
+                    ></p-button>
+                           
+                            </div>
+                        </div>
+
+
+
+                       </td>
+                   
+                   
+                  
+                </tr>
+            </ng-template>
+        </p-table>
+     </p-card>
+     
+    </div>
+    <div *ngIf="selectedProduct1===undefined" class="p-field p-col-12 p-md-6"> 
+    Selectionner Pour visualiser Détail  
+    </div>
+    <div *ngIf="selectedProduct1!==undefined" class="p-field p-col-12 p-md-6"> 
+    <p-card header="Détail Panne" subheader="{{selectedProduct1.moyenmaterielIdmoyenmateriel.categorieenginIdcategorieengin.designation}} {{selectedProduct1.moyenmaterielIdmoyenmateriel.code}}">
+<p-button *ngIf="value(selectedProduct1)===null" icon="fa fa-plus" label="Initier Réparation"></p-button>
+
+    </p-card>
+    </div>
+    </div>
+    </p-tabPanel>
+    </p-tabView>
+    </p-card>
+   
+</div>

@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "215166ee-9069-416e-a131-f0981f41c438"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -32,6 +35,7 @@
             ],
             "styles": [
               "src/styles.scss"
+             
             ],
             "scripts": []
           },
@@ -101,7 +105,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [       "./node_modules/prismjs/prism.js",
+              "./node_modules/prismjs/components/prism-typescript.js"]
           }
         }
       }

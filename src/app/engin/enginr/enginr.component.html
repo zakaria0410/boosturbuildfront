@@ -1,0 +1,222 @@
+<div class="content-section introduction">
+    <div class="feature-intro">
+        <h1>Parc Matériel</h1>
+        <p>Gestion des équipements de l'entreprise</p>
+    </div>
+ </div>
+
+<div class="content-section implementation">
+
+
+
+    <p-dialog   [(visible)]="displayUnit" [contentStyle]="{'overflow':'visible'}"  header="Nouvelle Unité De Mesure" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+           
+
+         
+            <form [formGroup]="ligneUniteForm" >  
+       
+                
+      <div  class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="designation"
+              id="designation" pInputText >
+             <label for="kmmin">Désignation</label>  
+                </span>
+</div>
+
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="libelle"
+          id="libelle" pInputText >
+         <label for="libelle">Unité Mesure</label>  
+            </span>
+</div>
+
+
+<div class="p-field-checkbox">
+    <span>
+    <p-checkbox formControlName="isparc" [binary]="true" inputId="isparc"></p-checkbox>
+    <label for="isparc">Is Parc</label>
+    </span>
+</div>
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="submitUnit()" label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+
+    <p-card>
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                
+                <p-button  icon="pi pi-plus" (click)="showBasicDialog(null)" styleClass="p-button-success" label="Nouvel Engin"></p-button>
+     
+            </ng-template>
+            
+          
+            <ng-template pTemplate="right">
+            </ng-template>
+        </p-toolbar>
+        <p-table  [paginator]="true"  [rowsPerPageOptions]="[10,25,50]"  
+        [responsive]="true" [rows]="10" [value]="dataSource">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th pSortableColumn="designation">Modéle<p-sortIcon field="designation"></p-sortIcon></th>
+                    <th pSortableColumn="marque">Marque<p-sortIcon field="marque"></p-sortIcon></th>
+                    <th pSortableColumn="type">Type<p-sortIcon field="type"></p-sortIcon></th>
+                    <th pSortableColumn="categ">Catégori<p-sortIcon field="categ"></p-sortIcon></th>   
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Base Données Engin</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>
+                        {{product.code}}    </td>
+                        <td>
+                            {{product.modele}}    </td>
+                    <td>{{product.marque}}</td>
+                    <td>{{product.dtype}}</td>
+                    <td>{{product.categorieenginIdcategorieengin.designation}}</td>
+                    <td> 
+                        <div class="p-formgrid p-grid">
+                            <div class="p-field p-col">    <p-button 
+                         icon="pi pi-pencil" (click)="showBasicDialog(product)"
+                          styleClass="p-button-warning"></p-button>
+                      </div>   
+                      
+                      <div class="p-field p-col">    <p-button 
+                        icon="pi pi-cog" routerLink="/paramMM/{{product.idmoyenmateriel}}"
+                         styleClass="p-button-success"></p-button>
+                     </div>  
+                      
+                      <div class="p-field p-col"> 
+                          <p-button (click)="delete(product)" styleClass="p-button-danger" 
+                          icon="pi pi-trash" 
+              ></p-button>
+                        </div></div></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    
+    
+    </p-card>
+    <p-dialog   [(visible)]="displayBasic" [contentStyle]="{'overflow':'visible'}"  header="Nouvel Engin" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+               <div class="p-field">
+                   <span class="p-float-label">
+                   <label >Type Dépôt</label>
+                   <p-dropdown [(ngModel)]="typeMM"  [options]="types"
+                   (onChange)="onChangeType($event)" placeholder="Type">
+                       <ng-template let-option pTemplate="item">
+                           <span >{{option.value}}</span>
+                       </ng-template>
+                   </p-dropdown>
+                   </span>
+               </div>
+
+         
+            <form [formGroup]="userForm" >  
+       
+               
+                    <div class="p-field">
+                        <span class="p-float-label">
+                             <input type="text" formControlName="code"
+                              id="designation" pInputText >
+                             <label for="designation">Code</label>  
+                                </span>
+      </div>
+      <div class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="marque"
+              id="marque" pInputText >
+             <label for="marque">Marque</label>  
+                </span>
+</div>
+
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="modele"
+          id="modele" pInputText >
+         <label for="modele">modele</label>  
+            </span>
+</div>
+<div class="p-field">
+    <p-dropdown [options]="categories" placeholder="select categorie" formControlName="categorieenginIdcategorieengin"  
+
+    dataKey="idcategorieEngin"
+   optionLabel="libelle"></p-dropdown>
+</div>
+
+
+<div class="p-field">
+    Dépôts
+    <p-dropdown [options]="depots"  placeholder="depot" formControlName="depotIdcentreinvestissement"  
+
+    dataKey="idcentreinvestissement"
+   optionLabel="designation"></p-dropdown>
+</div>
+<div *ngIf="typeMM==='Log'" class="p-field">
+    <span class="p-float-label">
+        <input type="text" formControlName="capacite"
+         id="capacite" pInputText >
+        <label for="capacite">capacité</label>  
+           </span>
+</div>
+<div *ngIf="typeMM==='Vu'" class="p-field">
+    <span class="p-float-label">
+        <input type="text" formControlName="matricule"
+         id="matricule" pInputText >
+        <label for="matricule">Matricule</label>  
+           </span>
+</div>
+
+<div class="p-field">
+    <p-dropdown [options]="units" (onClick)="changeUnite($event)" (onChange)="changeUnite($event)" placeholder="select unité mesure" 
+    formControlName="unitemesureIdunitemesure"  
+
+    dataKey="idunitemesure"
+   optionLabel="designation"></p-dropdown>
+</div>
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="submit()"   label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+
+</div>

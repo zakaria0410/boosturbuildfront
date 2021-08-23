@@ -1,0 +1,19 @@
+<div class="layout-topbar">
+    <a (click)="onMenuButtonClick($event)" class="menu-button" >
+        <i class="pi pi-bars"></i>
+    </a>
+    
+    <ul #topbarMenu class="topbar-menu">
+        <li><a >Get Started</a></li>
+   
+        <li class="topbar-submenu">
+            <a >Templates</a>
+        
+        </li>
+        <li *ngIf="isLogged" class="topbar-submenu">
+           <a (click)="logoff()">Log Off</a>
+        
+        </li>
+   
+    </ul>
+</div>

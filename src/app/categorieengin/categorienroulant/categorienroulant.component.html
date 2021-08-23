@@ -1,0 +1,124 @@
+<div class="content-section introduction">
+    <div class="feature-intro">
+        <h1>Catégorie Engin Non Roulant</h1>
+        <p>Paramétrage des catégories roulants</p>
+    </div>
+ </div>
+
+<div class="content-section implementation">
+    <p-dialog   [(visible)]="displayBasic"  header="Catégorie Engin" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+               
+            <form [formGroup]="userForm" >  
+     
+                <div class="p-formgrid p-grid">
+                    <div class="p-field p-col">    
+                        <h5>Image Catégorie</h5>       
+                        
+                        <div class="p-field">
+    <div style="width: 100%;" *ngIf="imgFile">
+        <img [src]="imgFile" style="width:400px; height:250px">
+      </div></div>
+
+    
+      <div class="p-field">
+        <label for="file">File</label>
+        <input type="file" class="form-control" id="file"  (change)="onImageChange($event)">
+
+      </div></div>
+    
+                    <div class="p-field p-col">    
+                        <h5>Coordonées Catégorie</h5>  
+                            <div class="p-field">       
+                                <span class="p-float-label">  <input type="text" formControlName="designation"
+                              id="designation" pInputText >
+                             <label for="designation">Désignation</label>  
+                                </span>
+                            </div>
+                                <div class="p-field">
+                                    <span class="p-float-label">
+                                         <input type="text" formControlName="libelle"
+                                          id="libelle" pInputText >
+                                         <label for="libelle">Libelle</label>  
+                                            </span>
+                                </div> 
+                        
+                            </div>
+
+    </div>
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="submit()"   label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+<p-card>
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            
+            <p-button  icon="pi pi-plus" (click)="showBasicDialog(null)" styleClass="p-button-success" label="Nouveau Catégorie"></p-button>
+    
+        </ng-template>
+        
+      
+        <ng-template pTemplate="right">
+        </ng-template>
+    </p-toolbar>
+    <p-table  [paginator]="true"  [rowsPerPageOptions]="[10,25,50]"  
+    [responsive]="true" [rows]="10" [value]="cats">
+        <ng-template pTemplate="header">
+            <tr>
+                <th></th>
+                <th pSortableColumn="designation">Name<p-sortIcon field="designation"></p-sortIcon></th>
+                <th pSortableColumn="libelle">Libelle<p-sortIcon field="libelle"></p-sortIcon></th>
+              
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Liste Catégorie</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text"  placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <img [alt]="product.libelle" [src]="image(product)"width="50" style="vertical-align: middle"  />
+              </td>
+                <td>{{product.designation}}</td>
+                <td>{{product.libelle}}</td>
+                <td> 
+                    <div class="p-formgrid p-grid">
+                        <div class="p-field p-col">    <p-button 
+                     icon="pi pi-pencil" (click)="showBasicDialog(product)"
+                      styleClass="p-button-warning"></p-button>
+                  </div>         <div class="p-field p-col"> 
+                      <p-button styleClass="p-button-danger" 
+                      icon="pi pi-trash" 
+                      (click)="delete(product)"></p-button>
+                    </div></div></td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+</p-card>
+</div>
+
+

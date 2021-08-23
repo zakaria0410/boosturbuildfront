@@ -1,0 +1,494 @@
+<div class="content-section introduction">
+    <div class="feature-intro">
+        <h1>Paramétrage {{mm.categorieenginIdcategorieengin.designation}} {{mm.code}}</h1>
+        <p>Paramétrage financier et maintenancce des engins </p>
+    </div>
+ </div>
+
+<div class="content-section implementation">
+    <p-dialog   [(visible)]="displayBasic" [contentStyle]="{'overflow':'visible'}"  header="Nouveau Mode de Facturation" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+               <div class="p-field">
+                   <span class="p-float-label">
+                   <label >Type Tatif</label>
+                   <p-dropdown [(ngModel)]="typeTarif"  [options]="typesFacturation"
+                   placeholder="Type">
+                       <ng-template let-option pTemplate="item">
+                           <span >{{option.value}}</span>
+                       </ng-template>
+                   </p-dropdown>
+                   </span>
+               </div>
+
+         
+            <form [formGroup]="userForm" >  
+       
+                <div class="p-field">
+                    <p-dropdown [options]="units" (onClick)="changeUnite($event)" (onChange)="changeUnite($event)" placeholder="select unité mesure" 
+                    formControlName="unitemesureIdunitemesure"  
+                
+                    dataKey="idunitemesure"
+                   optionLabel="designation"></p-dropdown>
+                </div>
+      <div *ngIf="typeTarif==='Pc'" class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="pu"
+              id="pu" pInputText >
+             <label for="pu">PU</label>  
+                </span>
+</div>
+
+<div *ngIf="typeTarif==='Pc'" class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="objectif"
+          id="objectif" pInputText >
+         <label for="objectif">Objectif</label>  
+            </span>
+</div>
+
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="submitTarif()" label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+
+    <p-dialog   [(visible)]="displayEntretien" [contentStyle]="{'overflow':'visible'}"  header="Affectation Opération Maintenance" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+               <div class="p-field">
+                   <span class="p-float-label">
+                   <label >Type Entretien</label>
+                   <p-dropdown [(ngModel)]="typeEntretien"  [options]="typesPlanEntretien"
+                   placeholder="Type">
+                       <ng-template let-option pTemplate="item">
+                           <span >{{option.label}}</span>
+                       </ng-template>
+                   </p-dropdown>
+                   </span>
+               </div>
+
+         
+            <form [formGroup]="planEntretienForm" >  
+       
+            
+      <div *ngIf="typeEntretien==='Cp'" class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="puperiodicitecompteur"
+              id="puperiodicitecompteur" pInputText >
+             <label for="puperiodicitecompteur">Périodicité Compteur</label>  
+                </span>
+</div>
+
+<div *ngIf="typeEntretien==='Tmp'" class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="periodicitetemporelle"
+          id="periodicitetemporelle" pInputText >
+         <label for="periodicitetemporelle">Périodicité Temporelle</label>  
+            </span>
+</div>
+<div *ngIf="typeEntretien==='Tmp'" class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="unite"
+          id="unite" pInputText >
+         <label for="unite">Unité</label>  
+            </span>
+</div>
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="submitEntretien()" label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+
+    <p-dialog   [(visible)]="displayLg" [contentStyle]="{'overflow':'visible'}"  header="Nouvelle Fourchette Facturation" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+           
+
+         
+            <form [formGroup]="ligneGrilleForm" >  
+       
+                
+      <div  class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="kmmin"
+              id="kmmin" pInputText >
+             <label for="kmmin">KM Min</label>  
+                </span>
+</div>
+
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="kmmax"
+          id="kmmax" pInputText >
+         <label for="kmmax">KM Max</label>  
+            </span>
+</div>
+<div class="p-formgrid p-grid">
+
+<div class="p-field-checkbox p-col">
+    <span>
+    <p-checkbox formControlName="iskm" [binary]="true" inputId="iskm"></p-checkbox>
+    <label for="iskm">Dépend Distance</label>
+    </span>
+</div>
+<div class="p-field-checkbox p-col">
+    <span>
+    <p-checkbox formControlName="isqte" [binary]="true"  inputId="isqte"></p-checkbox>
+    <label for="isqte">Dépend qte</label>
+    </span>
+</div>
+</div>
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="objectifkmjr"
+          id="objectifkmjr" pInputText >
+         <label for="objectifkmjr">Objectif</label>  
+            </span>
+</div>
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="pu"
+          id="pu" pInputText >
+         <label for="pu">P.U</label>  
+            </span>
+</div>
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="submitLG()" label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+
+    <p-dialog   [(visible)]="displayUnit" [contentStyle]="{'overflow':'visible'}"  header="Nouvelle Unité De Mesure" [resizable]="true" [style]="{width: '50vw'}" 
+    [modal]="true" styleClass="p-fluid" [baseZIndex]="100">
+        
+     
+            <ng-template pTemplate="content">
+          
+           
+
+         
+            <form [formGroup]="ligneUniteForm" >  
+       
+                
+      <div  class="p-field">
+        <span class="p-float-label">
+             <input type="text" formControlName="designation"
+              id="designation" pInputText >
+             <label for="kmmin">Désignation</label>  
+                </span>
+</div>
+
+<div class="p-field">
+    <span class="p-float-label">
+         <input type="text" formControlName="libelle"
+          id="libelle" pInputText >
+         <label for="libelle">Unité Mesure</label>  
+            </span>
+</div>
+
+
+<div class="p-field-checkbox">
+    <span>
+    <p-checkbox formControlName="isparc" [binary]="true" inputId="isparc"></p-checkbox>
+    <label for="isparc">Is Parc</label>
+    </span>
+</div>
+
+    </form> 
+    </ng-template>
+         
+    
+                  
+    
+    
+    
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="submitUnit()" label="Ok" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    
+    </p-dialog>
+<p-card>
+  
+    <p-tabView>
+        <p-tabPanel >
+            <ng-template pTemplate = "header">
+                <i class="pi pi-dollar"></i>
+                <span>Paramétrage Financier</span>
+            </ng-template>
+            <p>
+                <p-card>
+                    <div class="p-formgrid p-grid">  
+                   <div class="p-field p-col">
+                    <div class="p-field">
+                    <p-inplace closeIcon="pi pi-check"  (onDeactivate)="submit()" [closable]="true">
+                        <ng-template pTemplate="display">
+                        <label style="font-weight: bold;">Valeur Achat</label>
+                            {{mm.vachat}}
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <p-inputNumber [(ngModel)]="mm.vachat" inputId="currency-us" mode="currency" currency="MAD" locale="en-US">
+                            </p-inputNumber>       </ng-template>
+                    </p-inplace>
+                   </div> 
+                   <div class="p-field">
+                    <p-inplace closeIcon="pi pi-check"  (onDeactivate)="submit()" [closable]="true">
+                        <ng-template pTemplate="display">
+                        <label style="font-weight: bold;">Nombre Années Amotissement</label>
+                       <span *ngIf="mm.anneesamortissement!==null">   {{mm.anneesamortissement}} Ans</span>   
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <p-inputNumber [(ngModel)]="mm.anneesamortissement" >
+                            </p-inputNumber>       </ng-template>
+                    </p-inplace> 
+</div>
+<div class="p-field">
+    <p-inplace closeIcon="pi pi-check"  (onDeactivate)="submit()" [closable]="true">
+        <ng-template pTemplate="display">
+        <label style="font-weight: bold;">Date Acquistion</label>
+            {{mm.dateacquisition}}
+        </ng-template>
+        <ng-template pTemplate="content">
+            <p-calendar  [(ngModel)]="date"></p-calendar>
+       </ng-template>
+    </p-inplace> 
+</div>
+<div class="p-field">
+    <p-inplace closeIcon="pi pi-check"  (onDeactivate)="submit()" [closable]="true">
+        <ng-template pTemplate="display">
+        <label style="font-weight: bold;">Nombre jour annee</label>
+            {{mm.nbjourannees}}
+        </ng-template>
+        <ng-template pTemplate="content">
+            <p-inputNumber   [(ngModel)]="mm.nbjourannees"></p-inputNumber >
+       </ng-template>
+    </p-inplace> 
+</div>
+</div>
+<div class="p-field p-col">
+    <p-card header="Prix Journalier Amortissement"> 
+<span *ngIf="mm.vachat!==null && mm.anneesamortissement!==null && mm.nbjourannees!=null">
+    {{mm.vachat/(mm.anneesamortissement*mm.nbjourannees)}} MAD/JR
+</span>
+<span *ngIf="mm.vachat===null || mm.anneesamortissement===null || mm.nbjourannees==null">
+Paramétrer D'abord les données financier
+</span>
+
+
+    </p-card>
+</div>
+</div>
+
+                </p-card>
+            
+            </p>    
+        </p-tabPanel>
+        <p-tabPanel >
+
+            <ng-template pTemplate = "header">
+                <i class="pi pi-check"></i>
+                <span>Modes de Facturation</span>
+            </ng-template>
+    
+
+                <div 
+             class="p-fluid p-grid">
+                    <div class="p-field p-col-12 p-md-12">    <p-toolbar>
+                        <div class="p-toolbar-group-left">
+              
+                           </div>
+                        
+                        <div class="p-toolbar-group-right">
+                            <p-button  label="Nouveau Mode Facturation" (click)="showBasicDialog(null)" icon="pi pi-plus" class="p-mr-2"></p-button>
+                         
+                                
+                        </div>
+                    </p-toolbar></div>
+                    <div class="p-col-12 p-md-12"> 
+                        <div class="p-fluid p-grid">
+                            <div class="p-col-12 p-md-12"> 
+                            <p>
+                                Les Modes de facturation corresspondant au {{mm.categorieenginIdcategorieengin.designation}} {{mm.code}}
+                            </p> 
+                            
+                            </div>
+                            <div *ngIf="tarifs.length===0" class="p-col-12 p-md-12">
+Aucun mode de facturation associé
+                            </div>
+                   <div *ngIf="tarifs.length!==0" class="p-col-12 p-md-12">
+                    <div  *ngFor="let t of tarifs" class="p-col-12 p-md-6">
+                        <div class="product-grid-item card">
+                            <div class="product-grid-item-top">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon"></i>
+                                    <span class="product-category">{{t.unitemesureIdunitemesure.designation}}</span>
+                                </div>
+                                <span class="product-badge status-instock">{{t.type}}</span>
+                            </div>
+                            <div class="product-grid-item-content">
+                     
+                                <div class="product-description"> 
+<p-card *ngIf="classevalue(t)==='Object'">
+<ng-template pTemplate="content">
+    {{value(t).pu}}<br/>
+    {{value(t).objectif}}
+</ng-template>
+</p-card>
+
+                                    <p-table *ngIf="classevalue(t)==='Array'"  [paginator]="true"  [rowsPerPageOptions]="[10,25,50]"  
+                                    [responsive]="true" [rows]="10" [value]="value(t)">
+                                    <ng-template pTemplate="caption">
+                                        <p-toolbar>
+                                            <div class="p-toolbar-group-left">
+                                                <p-button label="Nouvelle Ligne"   (click)="showLGDialog(t,null)" icon="pi pi-plus" class="p-mr-2"></p-button>
+                                      
+                                                <i class="p-toolbar-separator pi pi-bars p-mr-2" style="vertical-align: middle"></i>
+                                                
+                                             </div>
+                                            
+                                            <div class="p-toolbar-group-right">
+                                                <p-button  (click)="deleteTarif(t)" icon="pi pi-trash" styleClass="p-button-success p-mr-2"></p-button>
+                                            
+                                            </div>
+                                        </p-toolbar> 
+                                    </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                
+                                                <th >KM Min</th>
+                                                <th >KM Max</th>
+                                                <th >PU</th>
+                                                <th >Objectif</th>
+                                
+                                            </tr>
+                                        </ng-template>
+                                       
+                                        <ng-template pTemplate="body" let-product>
+                                            <tr>
+                                                <td>
+                                                    {{product.kmmin}}    </td>
+                                                    <td>
+                                                        {{product.kmmax}}    </td>
+                                                        <td>
+                                                            {{product.pu}}    </td>
+                                                            <td>
+                                                                {{product.objectifkmjr}}    </td>   </tr>
+                                        </ng-template>
+                                    </p-table></div>
+                         
+                            </div>
+                            <div class="product-grid-item-bottom">
+                                   
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                   </div> 
+             
+                    </div>
+</div>
+
+                   
+                    </div>
+
+                
+
+        </p-tabPanel>
+        <p-tabPanel >
+            <ng-template pTemplate = "header">
+                <i class="fa fa-wrench"></i>
+                <span>Maintenance</span>
+            </ng-template>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12" >
+                    <p>Faîtes Glisser Les Opérations De maintenance </p>
+                </div>
+                <div class="p-col-12 p-md-6 drag-column">
+<p-card header="Opérations Non Appliqué à {{mm.code}}">
+    <p-listbox [options]="plansM"  [metaKeySelection]="false"  [filter]="true" [multiple]="true" optionLabel="designation" [listStyle]="{'max-height':'250px'}" [style]="{'width':'100%'}">
+        <ng-template let-product pTemplate="item">
+            <div pDraggable="products" (onDragStart)="dragStart(product)" (onDragEnd)="dragEnd()"  class="country-item">
+                 {{product.designation}}
+            </div>
+        </ng-template>
+    </p-listbox>
+</p-card>
+                 
+
+
+
+ 
+                </div>
+                <div class="p-col-12 p-md-6 drop-column" pDroppable="products" (onDrop)="drop()">
+                    <p-card header="Opérations Maintenance Pour {{mm.code}}">
+                        <p-table [value]="planM2">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>designation</th>
+                                    <th>libelle</th>
+                                    <th>type</th>
+                                
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                        <td>{{product.planmaintenanceIdplanmaintenance.designation}}</td>
+                                        <td>{{product.planmaintenanceIdplanmaintenance.libelle}}</td>
+                                        <td>{{product.type}}</td>
+                                        <td>{{product.type}}</td>
+                                        <td>
+                                            <p-button (click)="deletePl(product)" styleClass="p-button-danger" 
+                                            icon="pi pi-trash" 
+                                ></p-button>
+                                        </td>
+                                    
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                    </p-card>  
+            
+                    </div>
+                </div>
+
+            </p-tabPanel>
+    </p-tabView>
+
+</p-card>
+</div>

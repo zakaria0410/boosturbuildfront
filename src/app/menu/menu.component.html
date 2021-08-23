@@ -1,0 +1,25 @@
+
+<div *ngIf="isLogged" class="layout-sidebar" [ngClass]="{'active': active}">
+    <a [routerLink]="['/']" class="logo">
+        <img alt="logo" src="assets/showcase/images/primeng-logo-dark.svg" />
+    </a>
+ 
+    <div class="layout-menu">
+        <div class="menu-category">Paramétrage</div>
+        <div class="menu-items">
+           <a [routerLink]="['/cis']"><i class="fa fa-building"></i>Centres Invistissement</a>
+           <a [routerLink]="['/users']"><i class="fa fa-user"></i>Users</a>
+        </div>
+        <div class="menu-category">Parc Matériel</div>
+        <div class="menu-items">
+           <a [routerLink]="['/catsr']"><i class="fa fa-tag"></i>Catégorie Engin Roulants</a>
+           <a [routerLink]="['/catsnr']"><i class="fa fa-tag"></i>Catégorie Engin Non Roulants</a>
+           <a [routerLink]="['/plm']"><i class="fa fa-list"></i>Plans Maintenance</a>
+           <a [routerLink]="['/egr']"><i class="fa fa-truck"></i>Parc Matériel</a>
+           <a [routerLink]="['/pannes']"><i class="fa fa-truck"></i>Pannes</a>
+
+        </div>
+        
+    
+</div>
+</div>
