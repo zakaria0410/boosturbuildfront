@@ -82,10 +82,12 @@ export class UserComponent implements OnInit {
     
     showBasicDialog(u:any){
   if(u===null){
+    this.iscreate=true
     this.cisAffect=[]
     this.rolesAffect=[]
   }
   else{
+    this.iscreate=false
     this.userService.user(u.id).subscribe(
       data=>{console.log(data)
       this.username=data.username
@@ -163,8 +165,8 @@ this.ciservice.detail(number).subscribe(
       const u=new User(null,this.username,this.email,this.firstName,this.lastName,this.password,this.stringfromCis(),this.rolesAffect);
      this.userService.add(u).subscribe(
   data=>{console.log(data)
-
-  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Centre Ajouté', life: 3000});
+    this.loadUsers()
+  this.messageService.add({severity:'success', summary: 'Successful', detail: 'Utilisateur Ajouté', life: 3000});
 },
   error=>console.log(error)
      )
@@ -173,12 +175,12 @@ this.ciservice.detail(number).subscribe(
   else{
     const u=new User(this.id,this.username,this.email,this.firstName,this.lastName,this.password,this.stringfromCis(),this.rolesAffect);
  this.userService.update(u).subscribe(
-data=>{
+data=>{this.loadUsers()
   this.messageService.add({severity:'warning', summary: 'Successful', detail: 'Utilisateur Mis à jour', life: 3000});
 },
 error=>console.log(error)
  )
- this.loadUsers()
+ 
  this.displayBasic=false
   }
   
